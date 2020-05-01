@@ -9,6 +9,11 @@
 url: http://localhost:3000/users
 metodo: GET
 
+----Buscar Usuario
+
+url: http://localhost:3000/users/{id_usuario}
+metodo: GET
+
 ----Cadastrar Usuario
 
 url: http://localhost:3000/users
@@ -18,8 +23,9 @@ exemplo:
 
 {
 	"email": "candidato@yahoo.com.br",
-	"password": "123"
-    "profile_id": 3
+	"password": "123",
+	"status": "Active",
+	"profile": "Candidato"
 }
 
 
