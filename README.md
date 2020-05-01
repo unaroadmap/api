@@ -43,4 +43,10 @@ exemplo:
 ----Deletar Usuario
 
 url: http://localhost:3000/users/{id_usuario}
-metodo: DELETE
+metodo: UPDATE
+
+exemplo:
+
+{
+	"status": "Deleted"
+}

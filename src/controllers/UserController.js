@@ -21,27 +21,17 @@ module.exports = {
           const  user = await User.create({email,password,status, profile });
         return res.json(user);
     },
-    async update(req, res) {
-                
-        const { id, email, password, status, profile } = req.body;
+    async update(req, res, next) {
             
-        const user = await User.update({id,email,password,status, profile });
-        
-       
-       return res.json(user);
-    },
-    async delete(req, res) {
-        const { user_id } = req.params;
-      
-        const user = await User.findByPk(user_id);
-  
-        if (!user) {
-            return res.status(400).json({ error: 'Usuario não encontrado'});
-        }
-        
-        await User.update({id: user_id, active: 'Deleted'});
-
-        return res.json();
-
+        const { email, password, status, profile } = req.body;
+            
+            User.update(
+            {email,password,status, profile },
+            {returning: true, where: {id: req.params.user_id}}
+            )
+            .then(updatedUser => {
+                res.json(updatedUser)
+            });
+            
     }
 };
