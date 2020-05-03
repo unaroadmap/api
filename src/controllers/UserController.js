@@ -16,17 +16,17 @@ module.exports = {
 
     },
     async store(req, res) {
-          const { email, password, status, profile } = req.body;
+          const { email, password, status, profile, address_id } = req.body;
             
-          const  user = await User.create({email,password,status, profile });
+          const  user = await User.create({email,password,status, profile, address_id });
         return res.json(user);
     },
     async update(req, res, next) {
             
-        const { email, password, status, profile } = req.body;
+        const { email, password, status, profile, address_id } = req.body;
             
             User.update(
-            {email,password,status, profile },
+            {email,password,status, profile, address_id },
             {returning: true, where: {id: req.params.user_id}}
             )
             .then(updatedUser => {
