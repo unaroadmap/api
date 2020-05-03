@@ -2,6 +2,7 @@ const routes = require("express").Router();
 const UserController = require('./controllers/UserController');
 const StateController = require('./controllers/StateController');
 const CityController = require('./controllers/CityController');
+const DistrictController = require('./controllers/DistrictController');
 //const AddressController = require('./controllers/AddressController');
 //const TechController = require('./controllers/TechController');
 //const ReportController = require('./controllers/ReportController');
@@ -23,6 +24,12 @@ routes.get('/citys/:city_id', CityController.getCity);
 routes.post('/citys', CityController.store);
 routes.put('/citys/:city_id', CityController.update);
 routes.delete('/citys/:city_id', CityController.delete);
+
+routes.get('/districts', DistrictController.listDistricts);
+routes.get('/districts/:district_id', DistrictController.getDistrict);
+routes.post('/districts', DistrictController.store);
+routes.put('/districts/:district_id', DistrictController.update);
+routes.delete('/districts/:district_id', DistrictController.delete);
 
 //routes.get('/users/:user_id/addresses', AddressController.index);
 //routes.post('/users/:user_id/addresses', AddressController.store);
