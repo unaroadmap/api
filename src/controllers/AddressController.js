@@ -1,34 +1,46 @@
 const Address = require('../models/Address');
-const User = require('../models/User');
-const { index } = require('./userController');
 
 module.exports = {
-    async index(req, res) {
-      const { user_id } = req.params;
-      
-      const user = await User.findByPk(user_id, {
-          include: { association: 'addresses' }
-      });
+    async listAddresss(req, res) {
+     const addresss = await Address.findAll();
 
-      return res.json(user.addresses);
+        return res.json(addresss);
+    },
+    async getAddress(req, res) {
+        const { address_id } = req.params;
+      
+        const address = await Address.findByPk(address_id);
+
+        return res.json(address);
+
     },
     async store(req, res) {
-      const { user_id } = req.params;
-      const { zipcode, street, number } = req.body;
+          
+          const { cep,logradouro,complement,number,district_id,user_id } = req.body;
+            
+          const  address = await Address.create({cep,logradouro,complement,number,district_id,user_id});
+        return res.json(address);
+    },
+    async update(req, res, next) {
+        const { address_id } = req.params;    
+        const { cep,logradouro,complement,number,district_id,user_id } = req.body;
 
-      const user = await User.findByPk(user_id);
-
-      if (!user) {
-          return res.status(400).json({ error: 'Usuario não encontrado' });
-      }
-
-      const address = await Address.create({
-          zipcode,
-          street,
-          number,
-          user_id,
-      });
-
-      return res.json(address);
+            Address.update(
+            { cep,logradouro,complement,number,district_id,user_id },
+            {returning: true, where: {id: address_id}}
+            )
+            .then(updatedAddress => {
+                res.json(updatedAddress)
+            });
+            
+    },
+    async delete(req, res, next) {
+                  
+            Address.destroy({returning: true, where: {id: req.params.address_id}}
+            )
+            .then(deleteAddress => {
+                res.json(deleteAddress)
+            });
+            
     }
 };
