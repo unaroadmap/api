@@ -8,7 +8,7 @@ const CandidateController = require('./controllers/CandidateController');
 const CompanyController = require('./controllers/CompanyController');
 const ProjectController = require('./controllers/ProjectController');
 const OccupationController = require('./controllers/OccupationController');
-
+const TrailController = require('./controllers/TrailController');
 
 
 routes.get('/users', UserController.listUsers);
@@ -66,6 +66,11 @@ routes.post('/occupations', OccupationController.store);
 routes.put('/occupations/:occupation_id', OccupationController.update);
 routes.delete('/occupations/:occupation_id', OccupationController.delete);
 
+routes.get('/trails', TrailController.listTrail);
+routes.get('/trails/:trail_id', TrailController.getTrail);
+routes.post('/trails', TrailController.store);
+routes.put('/trails/:trail_id', TrailController.update);
+routes.delete('/trails/:trail_id', TrailController.delete);
 
 //routes.get('/users/:user_id/addresses', AddressController.index);
 //routes.post('/users/:user_id/addresses', AddressController.store);
