@@ -9,6 +9,7 @@ const Address = require('../models/Address');
 const Candidate = require('../models/Candidate');
 const Company = require('../models/Company');
 const Project = require('../models/Project');
+const Occupation = require('../models/Occupation');
 
 const connection = new Sequelize(dbConfig);
 
@@ -20,6 +21,7 @@ Address.init(connection);
 Candidate.init(connection);
 Company.init(connection);
 Project.init(connection);
+Occupation.init(connection);
 
 
 User.associate(connection.models);
@@ -30,5 +32,6 @@ Address.associate(connection.models);
 Candidate.associate(connection.models);
 Company.associate(connection.models);
 Project.associate(connection.models);
+Occupation.associate(connection.models);
 
 module.exports = connection;
