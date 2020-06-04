@@ -6,6 +6,7 @@ const DistrictController = require('./controllers/DistrictController');
 const AddressController = require('./controllers/AddressController');
 const CandidateController = require('./controllers/CandidateController');
 const CompanyController = require('./controllers/CompanyController');
+const ProjectController = require('./controllers/ProjectController');
 
 
 
@@ -50,6 +51,13 @@ routes.get('/companys/:company_id', CompanyController.getCompany);
 routes.post('/companys', CompanyController.store);
 routes.put('/companys/:company_id', CompanyController.update);
 routes.delete('/companys/:company_id', CompanyController.delete);
+
+
+routes.get('/projects', ProjectController.listProject);
+routes.get('/projects/:project_id', ProjectController.getProject);
+routes.post('/projects', ProjectController.store);
+routes.put('/projects/:project_id', ProjectController.update);
+routes.delete('/projects/:project_id', ProjectController.delete);
 
 
 //routes.get('/users/:user_id/addresses', AddressController.index);
