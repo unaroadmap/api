@@ -9,6 +9,7 @@ const CompanyController = require('./controllers/CompanyController');
 const ProjectController = require('./controllers/ProjectController');
 const OccupationController = require('./controllers/OccupationController');
 const TrailController = require('./controllers/TrailController');
+const DocumentController = require('./controllers/DocumentController');
 
 
 routes.get('/users', UserController.listUsers);
@@ -71,6 +72,12 @@ routes.get('/trails/:trail_id', TrailController.getTrail);
 routes.post('/trails', TrailController.store);
 routes.put('/trails/:trail_id', TrailController.update);
 routes.delete('/trails/:trail_id', TrailController.delete);
+
+routes.get('/documents', DocumentController.listDocument);
+routes.get('/documents/:document_id', DocumentController.getDocument);
+routes.post('/documents', DocumentController.store);
+routes.put('/documents/:document_id', DocumentController.update);
+routes.delete('/documents/:document_id', DocumentController.delete);
 
 //routes.get('/users/:user_id/addresses', AddressController.index);
 //routes.post('/users/:user_id/addresses', AddressController.store);

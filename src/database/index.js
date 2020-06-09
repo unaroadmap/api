@@ -11,6 +11,7 @@ const Company = require('../models/Company');
 const Project = require('../models/Project');
 const Occupation = require('../models/Occupation');
 const Trail = require('../models/Trail');
+const Document = require('../models/Document');
 
 const connection = new Sequelize(dbConfig);
 
@@ -24,6 +25,7 @@ Company.init(connection);
 Project.init(connection);
 Occupation.init(connection);
 Trail.init(connection);
+Document.init(connection);
 
 User.associate(connection.models);
 State.associate(connection.models);
@@ -35,5 +37,6 @@ Company.associate(connection.models);
 Project.associate(connection.models);
 Occupation.associate(connection.models);
 Trail.associate(connection.models);
+Document.associate(connection.models);
 
 module.exports = connection;

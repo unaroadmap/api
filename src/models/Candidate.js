@@ -13,7 +13,7 @@ class Candidate extends Model {
         telephone: DataTypes.STRING, 
         cell_phone: DataTypes.STRING, 
         //address_id: DataTypes.INTEGER, 
-        user_id: DataTypes.INTEGER
+        user_id: DataTypes.INTEGER,
           
       }, {
           sequelize,
