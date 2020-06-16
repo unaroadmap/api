@@ -10,7 +10,7 @@ const ProjectController = require('./controllers/ProjectController');
 const OccupationController = require('./controllers/OccupationController');
 const TrailController = require('./controllers/TrailController');
 const DocumentController = require('./controllers/DocumentController');
-
+const TopicController = require('./controllers/TopicController');
 
 routes.get('/users', UserController.listUsers);
 routes.get('/users/:user_id', UserController.getUser);
@@ -78,6 +78,13 @@ routes.get('/documents/:document_id', DocumentController.getDocument);
 routes.post('/documents', DocumentController.store);
 routes.put('/documents/:document_id', DocumentController.update);
 routes.delete('/documents/:document_id', DocumentController.delete);
+
+routes.get('/topics', TopicController.listTopic);
+routes.get('/topics/:topic_id', TopicController.getTopic);
+routes.post('/topics', TopicController.store);
+routes.put('/topics/:topic_id', TopicController.update);
+routes.delete('/topics/:topic_id', TopicController.delete);
+
 
 //routes.get('/users/:user_id/addresses', AddressController.index);
 //routes.post('/users/:user_id/addresses', AddressController.store);
