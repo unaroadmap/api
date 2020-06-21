@@ -5,9 +5,8 @@ class Topic extends Model {
       super.init({
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      url: DataTypes.STRING,
       order: DataTypes.INTEGER,
-      trail_id: DataTypes.INTEGER         
+      url: DataTypes.STRING         
       }, {
           sequelize,
           tableName: 'topic'
@@ -16,7 +15,11 @@ class Topic extends Model {
 
   static associate(models) {
     //this.belongsTo(models.Address, { foreignKey: 'address_id', as: 'address'});
-    this.belongsTo(models.Trail, { foreignKey: 'trail_id', as: 'trail'});
+    this.belongsToMany(models.Trail, { 
+        through: 'trails_topics',
+        as: 'trails',
+        foreignKey: 'topic_id',
+    });
 }
 }
 

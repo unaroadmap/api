@@ -23,7 +23,16 @@ class Candidate extends Model {
 
   static associate(models) {
     //this.belongsTo(models.Address, { foreignKey: 'address_id', as: 'address'});
-    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
+    this.belongsTo(models.User, { 
+      foreignKey: 'user_id', 
+      as: 'user'
+    });
+
+    this.belongsToMany(models.Project, { 
+      through: 'projects_candidates',
+      as: 'projects',
+      foreignKey: 'candidate_id',
+  });
 }
 }
 

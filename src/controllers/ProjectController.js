@@ -1,8 +1,23 @@
 const Project = require('../models/Project');
+const Candidate = require('../models/Candidate');
+const Trail = require('../models/Trail');
 
 module.exports = {
     async listProject(req, res) {
-     const project = await Project.findAll();
+     const project = await Project.findAll({
+         include: [
+             {
+                 model: Candidate,
+                 as: 'candidates',
+                 through: { attributes: [ ] },
+             },
+             {
+                model: Trail,
+                as: 'trails',
+                through: { attributes: [ ] },
+            }
+         ]
+     });
 
         return res.json(project);
     },
@@ -16,22 +31,43 @@ module.exports = {
     },
     async store(req, res) {
           
-          const { name, company_id, description } = req.body;
+        const { candidates,trails, ...data } = req.body;
             
-          const  project = await Project.create({name, company_id,description});
+        const  project = await Project.create(data);
+
+        if(candidates && candidates.length > 0) {
+            project.setCandidates(candidates);
+        }
+
+        if(trails && trails.length > 0) {
+            project.setTrails(trails);
+        }
+        
         return res.json(project);
     },
     async update(req, res, next) {
-        const { project_id } = req.params;    
-        const { name, company_id, description } = req.body;
 
-            Project.update(
-            { name, company_id, description },
-            {returning: true, where: {id: project_id}}
-            )
-            .then(updatedProject => {
-                res.json(updatedProject)
-            });
+      try{
+        const { project_id } = req.params;
+
+        const project = await Project.findByPk(project_id);    
+        
+        const { candidates,trails, ...data } = req.body;
+
+        project.update(data);
+
+        if(candidates && candidates.length > 0) {
+            project.setCandidates(candidates);
+        }
+
+        if(trails && trails.length > 0) {
+            project.setTrails(trails);
+        }
+
+        return res.status(200).json(project);
+      } catch (err) {
+        return res.status(500).json({ err });  
+      }
             
     },
     async delete(req, res, next) {
