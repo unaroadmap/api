@@ -6,27 +6,23 @@ module.exports = {
  async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable('topic', { 
+      await queryInterface.createTable('trails_topics', { 
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
           allowNull: false,
         },
-        name: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        description: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        url: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        order: {
+        trail_id: {
           type: Sequelize.INTEGER,
+          references: { model: 'trail', key: 'id'},
+          onDelete: 'CASCADE',
+          allowNull: false,
+        },
+        topic_id: {
+          type: Sequelize.INTEGER,
+          references: { model: 'topic', key: 'id'},
+          onDelete: 'CASCADE',
           allowNull: false,
         },     
         created_at: {
@@ -51,7 +47,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
   
-      return queryInterface.dropTable('topic');
+      return queryInterface.dropTable('trails_topics');
    
   }
 };

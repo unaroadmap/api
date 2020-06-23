@@ -23,10 +23,10 @@ module.exports = {
     },
     async update(req, res, next) {
         const { topic_id } = req.params;    
-        const { name, description, url, order, trail_id } = req.body;
+        const { name, description, url, order } = req.body;
 
-            Trail.update(
-            { name, description, url, order, trail_id },
+            Topic.update(
+            { name, description, url, order },
             {returning: true, where: {id: topic_id}}
             )
             .then(updatedTopic => {

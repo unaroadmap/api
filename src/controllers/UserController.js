@@ -16,10 +16,16 @@ module.exports = {
 
     },
     async store(req, res) {
-          const { email, password, status, profile, address_id } = req.body;
+       try{
+        
+        const { email, password, status, profile, address_id } = req.body;
             
-          const  user = await User.create({email,password,status, profile, address_id });
-        return res.json(user);
+        const  user = await User.create({email,password,status, profile, address_id });
+        
+        return res.status(200).send(user);
+       } catch (err) {
+           return res.status(400).send({ error: err });
+       }
     },
     async update(req, res, next) {
             

@@ -13,6 +13,18 @@ class Trail extends Model {
 
   static associate(models) {
 
+    this.belongsToMany(models.Project, { 
+      through: 'projects_trails',
+      as: 'projects',
+      foreignKey: 'trail_id',
+    });
+
+    this.belongsToMany(models.Topic, { 
+      through: 'trails_topics',
+      as: 'topics',
+      foreignKey: 'trail_id',
+  });
+
   }
 
 }
