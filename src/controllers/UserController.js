@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     async listUsers(req, res) {
@@ -18,11 +20,18 @@ module.exports = {
     async store(req, res) {
        try{
         
-        const { email, password, status, profile, address_id } = req.body;
+            await bcrypt.hash(req.body.password, 10, function(errBcrypt, password) {
+            if(errBcrypt) { 
+                return res.status(500).send({ error: error }) 
+            }
+            const { email, status, profile, address_id } = req.body;
             
-        const  user = await User.create({email,password,status, profile, address_id });
+            const user = User.create({email,password,status, profile, address_id });
+            
+            return res.status(200).send(user);
+        });
         
-        return res.status(200).send(user);
+
        } catch (err) {
            return res.status(400).send({ error: err });
        }
@@ -38,6 +47,41 @@ module.exports = {
             .then(updatedUser => {
                 res.json(updatedUser)
             });
+            
+    },
+    async login(req, res) {
+        const { email,password } = req.body;
+         User.findOne({
+               where: {
+                   email: email
+                }
+            }).then(function(usuario) {
+                if(!usuario){
+                    return res.status(401).send( {msg: 'Falha na autenticação' });
+                }
+                bcrypt.compare(password, usuario.password, (err, result) => {
+                    if (err) {
+                        return res.status(401).send( {msg: 'Falha na autenticação' });
+                    }
+
+                    if(result) {
+                        const token = jwt.sign({
+                         id: usuario.id,
+                         email: usuario.email
+                        }, 'mgceldr21',
+                        {
+                            expiresIn: "1h"
+                        }                        
+                        );
+                        return res.status(200).send( { msg: 'Autenticado com sucesso',
+                                                       token: token });
+                    }
+
+                    return res.status(401).send( {msg: 'Falha na autenticação' });
+                });
+                                      
+            });
+
             
     }
 };
