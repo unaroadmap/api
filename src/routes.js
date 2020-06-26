@@ -15,7 +15,7 @@ const login = require('./middleware/login');
 
 routes.get('/users',login.private, UserController.listUsers);
 routes.get('/users/:user_id',login.private, UserController.getUser);
-routes.post('/users',login.private, UserController.store);
+routes.post('/users',login.public, UserController.store);
 routes.post('/users/login',login.public, UserController.login);
 routes.put('/users/:user_id',login.public, UserController.update);
 
