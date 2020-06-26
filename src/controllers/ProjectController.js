@@ -4,6 +4,7 @@ const Trail = require('../models/Trail');
 
 module.exports = {
     async listProject(req, res) {
+        console.log("wannisson" + req.usuario);
      const project = await Project.findAll({
          include: [
              {

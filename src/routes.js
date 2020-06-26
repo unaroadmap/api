@@ -11,79 +11,81 @@ const OccupationController = require('./controllers/OccupationController');
 const TrailController = require('./controllers/TrailController');
 const DocumentController = require('./controllers/DocumentController');
 const TopicController = require('./controllers/TopicController');
+const login = require('./middleware/login');
 
-routes.get('/users', UserController.listUsers);
-routes.get('/users/:user_id', UserController.getUser);
-routes.post('/users', UserController.store);
-routes.put('/users/:user_id', UserController.update);
+routes.get('/users',login.private, UserController.listUsers);
+routes.get('/users/:user_id',login.private, UserController.getUser);
+routes.post('/users',login.private, UserController.store);
+routes.post('/users/login',login.public, UserController.login);
+routes.put('/users/:user_id',login.public, UserController.update);
 
-routes.get('/states', StateController.listStates);
-routes.get('/states/:state_id', StateController.getState);
-routes.post('/states', StateController.store);
-routes.put('/states/:state_id', StateController.update);
-routes.delete('/states/:state_id', StateController.delete);
+routes.get('/states',login.private, StateController.listStates);
+routes.get('/states/:state_id',login.private, StateController.getState);
+routes.post('/states',login.private, StateController.store);
+routes.put('/states/:state_id',login.private, StateController.update);
+routes.delete('/states/:state_id',login.private, StateController.delete);
 
-routes.get('/citys', CityController.listCitys);
-routes.get('/citys/:city_id', CityController.getCity);
-routes.post('/citys', CityController.store);
-routes.put('/citys/:city_id', CityController.update);
-routes.delete('/citys/:city_id', CityController.delete);
+routes.get('/citys',login.private, CityController.listCitys);
+routes.get('/citys/:city_id',login.private, CityController.getCity);
+routes.post('/citys',login.private, CityController.store);
+routes.put('/citys/:city_id',login.private, CityController.update);
+routes.delete('/citys/:city_id',login.private, CityController.delete);
 
-routes.get('/districts', DistrictController.listDistricts);
-routes.get('/districts/:district_id', DistrictController.getDistrict);
-routes.post('/districts', DistrictController.store);
-routes.put('/districts/:district_id', DistrictController.update);
-routes.delete('/districts/:district_id', DistrictController.delete);
+routes.get('/districts',login.private, DistrictController.listDistricts);
+routes.get('/districts/:district_id',login.private, DistrictController.getDistrict);
+routes.post('/districts',login.private, DistrictController.store);
+routes.put('/districts/:district_id',login.private, DistrictController.update);
+routes.delete('/districts/:district_id',login.private, DistrictController.delete);
 
-routes.get('/address', AddressController.listAddresss);
-routes.get('/address/:address_id', AddressController.getAddress);
-routes.post('/address', AddressController.store);
-routes.put('/address/:address_id', AddressController.update);
-routes.delete('/address/:address_id', AddressController.delete);
-
-
-routes.get('/candidates', CandidateController.listCandidate);
-routes.get('/candidates/:candidate_id', CandidateController.getCandidate);
-routes.post('/candidates', CandidateController.store);
-routes.put('/candidates/:candidate_id', CandidateController.update);
-routes.delete('/candidates/:candidate_id', CandidateController.delete);
-
-routes.get('/companys', CompanyController.listCompany);
-routes.get('/companys/:company_id', CompanyController.getCompany);
-routes.post('/companys', CompanyController.store);
-routes.put('/companys/:company_id', CompanyController.update);
-routes.delete('/companys/:company_id', CompanyController.delete);
+routes.get('/address',login.private, AddressController.listAddresss);
+routes.get('/address/:address_id',login.private, AddressController.getAddress);
+routes.post('/address',login.private, AddressController.store);
+routes.put('/address/:address_id',login.private, AddressController.update);
+routes.delete('/address/:address_id',login.private, AddressController.delete);
 
 
-routes.get('/projects', ProjectController.listProject);
-routes.get('/projects/:project_id', ProjectController.getProject);
-routes.post('/projects', ProjectController.store);
-routes.put('/projects/:project_id', ProjectController.update);
-routes.delete('/projects/:project_id', ProjectController.delete);
+routes.get('/candidates',login.private, CandidateController.listCandidate);
+routes.get('/candidates/:candidate_id',login.private, CandidateController.getCandidate);
+routes.post('/candidates',login.private, CandidateController.store);
+routes.put('/candidates/:candidate_id',login.private, CandidateController.update);
+routes.delete('/candidates/:candidate_id',login.private, CandidateController.delete);
 
-routes.get('/occupations', OccupationController.listOccupation);
-routes.get('/occupations/:occupation_id', OccupationController.getOccupation);
-routes.post('/occupations', OccupationController.store);
-routes.put('/occupations/:occupation_id', OccupationController.update);
-routes.delete('/occupations/:occupation_id', OccupationController.delete);
+routes.get('/companys',login.private, CompanyController.listCompany);
+routes.get('/companys/:company_id',login.private, CompanyController.getCompany);
+routes.post('/companys',login.private, CompanyController.store);
+routes.put('/companys/:company_id',login.private, CompanyController.update);
+routes.delete('/companys/:company_id',login.private, CompanyController.delete);
 
-routes.get('/trails', TrailController.listTrail);
-routes.get('/trails/:trail_id', TrailController.getTrail);
-routes.post('/trails', TrailController.store);
-routes.put('/trails/:trail_id', TrailController.update);
-routes.delete('/trails/:trail_id', TrailController.delete);
 
-routes.get('/documents', DocumentController.listDocument);
-routes.get('/documents/:document_id', DocumentController.getDocument);
-routes.post('/documents', DocumentController.store);
-routes.put('/documents/:document_id', DocumentController.update);
-routes.delete('/documents/:document_id', DocumentController.delete);
+routes.get('/projects', login.private, ProjectController.listProject);
+routes.get('/projects/:project_id', login.private, ProjectController.getProject);
+routes.post('/projects', login.private, ProjectController.store);
+routes.put('/projects/:project_id', login.private, ProjectController.update);
+routes.delete('/projects/:project_id', login.private, ProjectController.delete);
 
-routes.get('/topics', TopicController.listTopic);
-routes.get('/topics/:topic_id', TopicController.getTopic);
-routes.post('/topics', TopicController.store);
-routes.put('/topics/:topic_id', TopicController.update);
-routes.delete('/topics/:topic_id', TopicController.delete);
+routes.get('/occupations', login.private, OccupationController.listOccupation);
+routes.get('/occupations/:occupation_id', login.private, OccupationController.getOccupation);
+routes.post('/occupations',login.private, OccupationController.store);
+routes.put('/occupations/:occupation_id',login.private, OccupationController.update);
+routes.delete('/occupations/:occupation_id',login.private, OccupationController.delete);
+
+routes.get('/trails',login.private, TrailController.listTrail);
+routes.get('/trails/:trail_id',login.private, TrailController.getTrail);
+routes.post('/trails',login.private, TrailController.store);
+routes.put('/trails/:trail_id',login.private, TrailController.update);
+routes.delete('/trails/:trail_id',login.private, TrailController.delete);
+
+routes.get('/documents',login.private, DocumentController.listDocument);
+routes.get('/documents/:document_id',login.private, DocumentController.getDocument);
+routes.post('/documents',login.private, DocumentController.store);
+routes.put('/documents/:document_id',login.private, DocumentController.update);
+routes.delete('/documents/:document_id',login.private, DocumentController.delete);
+
+routes.get('/topics',login.private, TopicController.listTopic);
+routes.get('/topics/:topic_id',login.private, TopicController.getTopic);
+routes.post('/topics',login.private, TopicController.store);
+routes.put('/topics/:topic_id',login.private, TopicController.update);
+routes.delete('/topics/:topic_id',login.private, TopicController.delete);
 
 
 //routes.get('/users/:user_id/addresses', AddressController.index);

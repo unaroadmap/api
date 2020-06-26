@@ -16,8 +16,9 @@ class User extends Model {
           },
           status: DataTypes.STRING,
           profile: DataTypes.STRING,
-          password: DataTypes.STRING,
-          
+          password: {
+             type: DataTypes.STRING,
+          }
       }, {
           sequelize
       })

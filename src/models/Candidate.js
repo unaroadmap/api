@@ -33,6 +33,10 @@ class Candidate extends Model {
       as: 'projects',
       foreignKey: 'candidate_id',
   });
+
+   this.hasMany(models.Topic, {
+      onDelete: "cascade"
+   });
 }
 }
 
