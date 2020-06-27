@@ -43,7 +43,7 @@ module.exports = {
       );
       await queryInterface.bulkInsert('users', [{
         email: 'admin@unaroadmap.com.br',
-        password: 'admin',
+        password: '$2b$10$ZwYqkGY0CSHPWGFIOKIbku5fjs8H.8xFyqH6KQVTfLTSrd9wAn8aO',
         status: 'Active',
         profile: 'Administrador',
         created_at: new Date(),
