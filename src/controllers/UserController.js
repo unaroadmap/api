@@ -29,11 +29,6 @@ module.exports = {
         } catch (err) {
             return res.status(400).send({ 'error': err });
         }
-        
-
-       } catch (err) {
-           return res.status(400).send({ error: err });
-       }
     },
     async update(req, res, next) {
             
