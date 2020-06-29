@@ -68,14 +68,17 @@ module.exports = {
                         }                        
                         );
                         return res.status(200).send( { msg: 'Autenticado com sucesso',
-                                                       token: token });
+                                                       token: token,
+                                                       id: usuario.id,
+                                                       email: usuario.email,
+                                                       status: usuario.status,
+                                                       profile: usuario.profile,
+                                                     });
                     }
 
                     return res.status(401).send( {msg: 'Falha na autenticação' });
                 });
                                       
             });
-
-            
     }
 };

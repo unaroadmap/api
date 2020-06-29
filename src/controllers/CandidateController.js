@@ -14,13 +14,17 @@ module.exports = {
         return res.json(candidate);
 
     },
+    
+    
     async store(req, res) {
           
           const { name, birthday, sexo, schooling, nationality, mother_name, father_name, telephone, cell_phone, user_id } = req.body;
             
           const  candidate = await Candidate.create({name, birthday, sexo, schooling, nationality, mother_name, father_name, telephone, cell_phone, user_id});
-        return res.json(candidate);
+          
+         return res.json(candidate);
     },
+
     async update(req, res, next) {
         const { candidate_id } = req.params;    
         const { name, birthday, sexo, schooling, nationality, mother_name, father_name, telephone, cell_phone, user_id } = req.body;
