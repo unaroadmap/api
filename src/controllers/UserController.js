@@ -31,8 +31,10 @@ module.exports = {
         }
     },
     async update(req, res, next) {
-            
-        const { email, password, status, profile, address_id } = req.body;
+        
+        const password = await bcrypt.hash(req.body.password, 10);
+
+        const { email, status, profile, address_id } = req.body;
             
             User.update(
             {email,password,status, profile, address_id },
