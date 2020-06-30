@@ -9,7 +9,7 @@ exports.private = (req, res, next) => {
         req.usuario = decode;
         next();
     } catch(error){
-        return res.status(401).send({ msg: 'Falha na autenticação'});
+        return res.status(401).send({ msg: 'Falha na autenticação', erro: error});
     }
     
 }

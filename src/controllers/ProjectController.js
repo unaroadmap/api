@@ -4,80 +4,87 @@ const Trail = require('../models/Trail');
 
 module.exports = {
     async listProject(req, res) {
-        console.log("wannisson" + req.usuario);
-     const project = await Project.findAll({
-         include: [
-             {
-                 model: Candidate,
-                 as: 'candidates',
-                 through: { attributes: [ ] },
-             },
-             {
-                model: Trail,
-                as: 'trails',
-                through: { attributes: [ ] },
-            }
-         ]
-     });
+        const project = await Project.findAll({
+            include: [
+                {
+                    model: Candidate,
+                    as: 'candidates',
+                    through: { attributes: [] },
+                },
+                {
+                    model: Trail,
+                    as: 'trails',
+                    through: { attributes: [] },
+                }
+            ]
+        });
 
+        return res.json(project);
+    },
+
+    async listProjectCandidate(req, res) {
+        const { canditate_id } = req.params;
+        const project = await Project.findOne({
+            where:{ company_id: 1 },
+        })
         return res.json(project);
     },
     async getProject(req, res) {
         const { project_id } = req.params;
-      
+
         const project = await Project.findByPk(project_id);
 
         return res.json(project);
 
     },
     async store(req, res) {
-          
-        const { candidates,trails, ...data } = req.body;
-            
-        const  project = await Project.create(data);
 
-        if(candidates && candidates.length > 0) {
+        const { candidates, trails, ...data } = req.body;
+
+        const project = await Project.create(data);
+
+        if (candidates && candidates.length > 0) {
             project.setCandidates(candidates);
         }
 
-        if(trails && trails.length > 0) {
+        if (trails && trails.length > 0) {
             project.setTrails(trails);
         }
-        
+
         return res.json(project);
     },
     async update(req, res, next) {
 
-      try{
-        const { project_id } = req.params;
+        try {
+            const { project_id } = req.params;
 
-        const project = await Project.findByPk(project_id);    
-        
-        const { candidates,trails, ...data } = req.body;
+            const project = await Project.findByPk(project_id);
 
-        project.update(data);
+            const { candidates, trails, ...data } = req.body;
 
-        if(candidates && candidates.length > 0) {
-            project.setCandidates(candidates);
+            project.update(data);
+
+            if (candidates && candidates.length > 0) {
+                project.setCandidates(candidates);
+            }
+
+            if (trails && trails.length > 0) {
+                project.setTrails(trails);
+            }
+
+            return res.status(200).json(project);
+        } catch (err) {
+            return res.status(500).json({ err });
         }
 
-        if(trails && trails.length > 0) {
-            project.setTrails(trails);
-        }
-
-        return res.status(200).json(project);
-      } catch (err) {
-        return res.status(500).json({ err });  
-      }
-            
     },
     async delete(req, res, next) {
-                  
-            Project.destroy({returning: true, where: {id: req.params.project_id}}
-            )
+
+        Project.destroy({ returning: true, where: { id: req.params.project_id } }
+        )
             .then(deleteProject => {
                 res.json(deleteProject)
             });
-            
+
     }
 };
