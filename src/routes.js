@@ -45,10 +45,12 @@ routes.delete('/address/:address_id',login.private, AddressController.delete);
 
 
 routes.get('/candidates',login.private, CandidateController.listCandidate);
+routes.get('/candidates/user/:user_id',login.private, CandidateController.getCandidateByUser);
 routes.get('/candidates/:candidate_id',login.private, CandidateController.getCandidate);
 routes.post('/candidates',login.private, CandidateController.store);
 routes.put('/candidates/:candidate_id',login.private, CandidateController.update);
 routes.delete('/candidates/:candidate_id',login.private, CandidateController.delete);
+
 
 routes.get('/companys',login.private, CompanyController.listCompany);
 routes.get('/companys/:company_id',login.private, CompanyController.getCompany);
@@ -56,7 +58,7 @@ routes.post('/companys',login.private, CompanyController.store);
 routes.put('/companys/:company_id',login.private, CompanyController.update);
 routes.delete('/companys/:company_id',login.private, CompanyController.delete);
 
-
+routes.get('/projects/:candidate_id', login.private, ProjectController.listProjectCandidate);
 routes.get('/projects', login.private, ProjectController.listProject);
 routes.get('/projects/:project_id', login.private, ProjectController.getProject);
 routes.post('/projects', login.private, ProjectController.store);

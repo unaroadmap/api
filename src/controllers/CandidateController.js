@@ -14,14 +14,21 @@ module.exports = {
         return res.json(candidate);
 
     },
-    
-    
+
+    async getCandidateByUser(req, res) {
+        const { user_id } = req.params;
+        const candidate = await Candidate.findOne({
+            where:{ user_id: user_id },
+        })
+        return res.json(candidate);
+    },
+       
     async store(req, res) {
           
           const { name, birthday, sexo, schooling, nationality, mother_name, father_name, telephone, cell_phone, user_id } = req.body;
             
           const  candidate = await Candidate.create({name, birthday, sexo, schooling, nationality, mother_name, father_name, telephone, cell_phone, user_id});
-          
+
          return res.json(candidate);
     },
 
