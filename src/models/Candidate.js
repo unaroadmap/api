@@ -34,9 +34,9 @@ class Candidate extends Model {
       foreignKey: 'candidate_id',
   });
 
-   this.hasMany(models.Topic, {
-      onDelete: "cascade"
-   });
+  // this.hasMany(models.Topic, {
+  //    onDelete: "cascade"
+  // });
 }
 }
 
