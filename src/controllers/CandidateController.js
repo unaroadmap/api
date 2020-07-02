@@ -53,5 +53,14 @@ module.exports = {
                 res.json(deleteCandidate)
             });
             
+    },
+    async setCandidateProject(req, res, next) {
+        const { candidate_id, project_id } = req.params;
+        
+        await Project.sequelize.query('INSERT INTO projects_candidates (candidate_id,project_id) VALUES (?,?)',
+                      { replacements: [candidate_id,project_id], type: Project.sequelize.QueryTypes.INSERT}
+                ).then(function(projects) {
+                    console.log(projects)
+                });
     }
 };

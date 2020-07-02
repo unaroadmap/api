@@ -58,20 +58,28 @@ module.exports = {
         try {
             const { project_id } = req.params;
 
+            const { candidate_id, trail_id, ...data } = req.body;
+            
             const project = await Project.findByPk(project_id);
 
-            const { candidates, trails, ...data } = req.body;
-
             project.update(data);
-
-            if (candidates && candidates.length > 0) {
-                project.setCandidates(candidates);
+            console.log(candidate_id)
+            if (candidate_id !== undefined && candidate_id !== null) {
+                await Project.sequelize.query('INSERT INTO projects_candidates (candidate_id,project_id) VALUES (?,?)',
+                      { replacements: [candidate_id,project_id], type: Project.sequelize.QueryTypes.INSERT}
+                ).then(function(projects) {
+                    console.log(projects)
+                });
             }
 
-            if (trails && trails.length > 0) {
-                project.setTrails(trails);
+            if (trail_id !== undefined && trail_id !== null) {
+                await Trail.sequelize.query('INSERT INTO projects_trails (trail_id,project_id) VALUES (?,?)',
+                    { replacements: [trail_id,project_id], type: Trail.sequelize.QueryTypes.INSERT}
+                ).then(function(trails) {
+                    console.log(trails)
+                });
             }
-
+        
             return res.status(200).json(project);
         } catch (err) {
             return res.status(500).json({ err });

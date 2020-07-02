@@ -3,11 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Project = require('../models/Project');
 
-const queryUserProjects = 'select p4.* from `users` p1' 
-+' inner join `candidate` p2 on p1.id = p2.user_id'
+const queryUserProjects = 'select p4.* from `candidate` p2'
 +' inner join `projects_candidates` p3 on p3.candidate_id = p2.id'
 +' inner join `project` p4 on p3.project_id = p4.id'
-+' where p1.id = :user_id';
++' where p2.user_id = :user_id';
 
 
 module.exports = {
