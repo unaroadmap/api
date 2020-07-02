@@ -1,6 +1,14 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Project = require('../models/Project');
+
+const queryUserProjects = 'select p4.* from `users` p1' 
++' inner join `candidate` p2 on p1.id = p2.user_id'
++' inner join `projects_candidates` p3 on p3.candidate_id = p2.id'
++' inner join `project` p4 on p3.project_id = p4.id'
++' where p1.id = :user_id';
+
 
 module.exports = {
     async listUsers(req, res) {
@@ -82,5 +90,14 @@ module.exports = {
                 });
                                       
             });
+    },
+    async getUserProjects(req, res) {
+        console.log(req.params.user_id);
+        await User.sequelize.query(queryUserProjects, 
+                    { replacements: { user_id: req.params.user_id }, type: User.sequelize.QueryTypes.SELECT }
+                  ).then(function(projects) {
+                    return res.json(projects);
+        })
     }
+
 };
