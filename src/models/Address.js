@@ -5,6 +5,7 @@ class Address extends Model {
       super.init({
           cep: DataTypes.STRING,
           logradouro: DataTypes.STRING,
+          complement: DataTypes.STRING,
           number: DataTypes.INTEGER,
           district_id: DataTypes.INTEGER,
           user_id: DataTypes.INTEGER

@@ -35,7 +35,7 @@ module.exports = {
             
           }
     
-          const  address = await Address.create({cep,logradouro,complement,number,district_id: districtAux.id,user_id});
+          const  address = await Address.create({cep,logradouro,complement,number,district_id: districtAux.id, user_id});
        
           return res.json(address);
     },
