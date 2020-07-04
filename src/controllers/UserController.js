@@ -70,7 +70,8 @@ module.exports = {
                     if(result) {
                         const token = jwt.sign({
                          id: usuario.id,
-                         email: usuario.email
+                         email: usuario.email,
+                         permissions: usuario.profile 
                         }, 'mgceldr21',
                         {
                             expiresIn: "1h"
