@@ -98,6 +98,21 @@ module.exports = {
                   ).then(function(projects) {
                     return res.json(projects);
         })
+    },
+    async delete(req, res, next) {
+           try {       
+            User.destroy({returning: true, where: {id: req.params.user_id}}
+            )
+            .then(deleteUser => {
+                res.json(deleteUser)
+            });
+            return res.status(200).send( 'Usuário excluido com sucesso');
+
+        } catch (err) {
+            return res.status(400).send('Erro ao excluir Usuário');
+        }
+
+            
     }
 
 };

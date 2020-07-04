@@ -19,6 +19,8 @@ routes.get('/users/:user_id/projects', login.private, UserController.getUserProj
 routes.post('/users',login.public, UserController.store);
 routes.post('/users/login',login.public, UserController.login);
 routes.put('/users/:user_id',login.public, UserController.update);
+routes.delete('/users/:user_id',login.private, UserController.delete);
+
 
 
 routes.get('/states',login.private, StateController.listStates);
