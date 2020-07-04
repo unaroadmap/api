@@ -5,7 +5,8 @@ class Project extends Model {
       super.init({
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      company_id: DataTypes.INTEGER         
+      company_id: DataTypes.INTEGER,
+      logo: DataTypes.STRING     
       }, {
           sequelize,
           tableName: 'project'
