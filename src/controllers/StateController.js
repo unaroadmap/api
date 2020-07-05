@@ -3,21 +3,23 @@ const State = require('../models/State');
 module.exports = {
     async listStates(req, res) {
         const {_start, _end, _order, _sort} = req.query;
-        
+        const states = await State.findAll();
+        const total = states.length;
+
         if(_start !== undefined) {
          
              const states = await State.findAll({
-                offset: parseInt(_start), limit: parseInt(_end),
+                offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
              });
     
              res.header('Access-Control-Expose-Headers', '*');
-             res.header('X-Total-Count', states != null ? states.length : 0 );
+             res.header('X-Total-Count', states != null ? _start +'-'+ _end +'/' + total : 0 );
          
              return res.json(states);
             } else {
-                return res.json(await State.findAll()); 
+                return res.json(states); 
             }    
     },
     async getState(req, res) {

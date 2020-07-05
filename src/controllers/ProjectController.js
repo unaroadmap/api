@@ -6,34 +6,36 @@ module.exports = {
     async listProject(req, res) {
 
         const {_start, _end, _order, _sort} = req.query;
-        
+        const projects = await Project.findAll({
+            include: [
+                {
+                    model: Candidate,
+                    as: 'candidates',
+                    through: { attributes: [] },
+                },
+                {
+                    model: Trail,
+                    as: 'trails',
+                    through: { attributes: [] },
+                }
+            ]
+        });
+        const total = projects.length;
+
         if(_start !== undefined) {
          
              const projects = await Project.findAll({
-                offset: parseInt(_start), limit: parseInt(_end),
+                offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
              });
     
              res.header('Access-Control-Expose-Headers', '*');
-             res.header('X-Total-Count', projects != null ? projects.length : 0 );
+             res.header('X-Total-Count', projects != null ? _start +'-'+ _end +'/' + total : 0 );
          
              return res.json(projects);
             } else {
-                return res.json(await Project.findAll({
-                    include: [
-                        {
-                            model: Candidate,
-                            as: 'candidates',
-                            through: { attributes: [] },
-                        },
-                        {
-                            model: Trail,
-                            as: 'trails',
-                            through: { attributes: [] },
-                        }
-                    ]
-                })); 
+                return res.json(projects); 
             }    
        
     },

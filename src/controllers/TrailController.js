@@ -5,28 +5,32 @@ module.exports = {
     async listTrail(req, res) {
         const {_start, _end, _order, _sort} = req.query;
         
+        const trails = await Trail.findAll({
+            include: [
+                {
+                    model: Topic,
+                    as: 'topics',
+                    through: { attributes: []},
+                }
+            ]
+        });
+
+        const total = trails.length;
+
         if(_start !== undefined) {
          
              const trails = await Trail.findAll({
-                offset: parseInt(_start), limit: parseInt(_end),
+                offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
              });
     
              res.header('Access-Control-Expose-Headers', '*');
-             res.header('X-Total-Count', trails != null ? trails.length : 0 );
+             res.header('X-Total-Count', trails != null ? _start +'-'+ _end +'/' + total : 0 );
          
              return res.json(trails);
             } else {
-                return res.json(await Trail.findAll({
-                    include: [
-                        {
-                            model: Topic,
-                            as: 'topics',
-                            through: { attributes: []},
-                        }
-                    ]
-                })); 
+                return res.json(trails); 
             }    
      
     },

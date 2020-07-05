@@ -6,7 +6,8 @@ class Project extends Model {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       company_id: DataTypes.INTEGER,
-      logo: DataTypes.STRING     
+      logo: DataTypes.STRING,
+      str: DataTypes.STRING     
       }, {
           sequelize,
           tableName: 'project'

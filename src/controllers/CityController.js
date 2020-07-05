@@ -3,21 +3,23 @@ const City = require('../models/City');
 module.exports = {
     async listCitys(req, res) {
         const {_start, _end, _order, _sort} = req.query;
-        
+        const citys = await City.findAll();
+        const total = citys.length;
+
         if(_start !== undefined) {
          
              const citys = await City.findAll({
-                offset: parseInt(_start), limit: parseInt(_end),
+                offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
              });
     
              res.header('Access-Control-Expose-Headers', '*');
-             res.header('X-Total-Count', citys != null ? citys.length : 0 );
+             res.header('X-Total-Count', citys != null ? _start +'-'+ _end +'/' + total : 0 );
          
              return res.json(citys);
             } else {
-                return res.json(await City.findAll()); 
+                return res.json(citys); 
             }    
     },
     async getCity(req, res) {

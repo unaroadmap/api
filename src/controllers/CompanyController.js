@@ -3,21 +3,23 @@ const Company = require('../models/Company');
 module.exports = {
     async listCompany(req, res) {
         const {_start, _end, _order, _sort} = req.query;
-        
+        const companys = await Company.findAll();
+        const total = companys.length; 
+
         if(_start !== undefined) {
          
              const companys = await Company.findAll({
-                offset: parseInt(_start), limit: parseInt(_end),
+                offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
              });
     
              res.header('Access-Control-Expose-Headers', '*');
-             res.header('X-Total-Count', companys != null ? companys.length : 0 );
+             res.header('X-Total-Count', companys != null ? _start +'-'+ _end +'/' + total : 0 );
          
              return res.json(companys);
             } else {
-                return res.json(await Company.findAll()); 
+                return res.json(companys); 
             }    
     },
     async getCompany(req, res) {
