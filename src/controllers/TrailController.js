@@ -20,6 +20,13 @@ module.exports = {
         if(_start !== undefined) {
          
              const trails = await Trail.findAll({
+                include: [
+                    {
+                        model: Topic,
+                        as: 'topics',
+                        through: { attributes: []},
+                    }
+                ],
                 offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
@@ -36,8 +43,17 @@ module.exports = {
     },
     async getTrail(req, res) {
         const { trail_id } = req.params;
-      
-        const trail = await Trail.findByPk(trail_id);
+        
+        const trail = await Trail.findByPk(trail_id,{
+            include: [
+                {
+                    model: Topic,
+                    as: 'topics',
+                    through: { attributes: []},
+                }
+            ]    
+            
+        });
 
         return res.json(trail);
 
@@ -48,8 +64,13 @@ module.exports = {
             
         const  trail = await Trail.create(data);
         
-        if(topics && topics.length > 0) {
-            trail.setTopics(topics);
+        let arr = [];
+        for(let p in topics) {
+            arr.push(topics[p]["id"]);
+        }
+        if(arr && arr.length > 0) {
+            trail.setTopics(arr);
+            
         }
 
         return res.json(trail);
@@ -64,12 +85,15 @@ module.exports = {
 
         trail.update(data);
 
-        
-        if(topics && topics.length > 0) {
-            trail.setTopics(topics);
+        let arr = [];
+        for(let p in topics) {
+            arr.push(topics[p]["id"]);
+        }
+        if(arr && arr.length > 0) {
+            trail.setTopics(arr);
             
         }
-
+ 
             return res.status(200).json(topics);
         } catch(err) {
             return res.status(500).json({ err }); 
