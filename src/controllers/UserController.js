@@ -12,21 +12,24 @@ const queryUserProjects = 'select p4.* from `candidate` p2'
 module.exports = {
     async listUsers(req, res) {
      const {_start, _end, _order, _sort} = req.query;
-        
+     
+     const users = await User.findAll();
+     const total = users.length;
+
     if(_start !== undefined) {
      
          const users = await User.findAll({
-            offset: parseInt(_start), limit: parseInt(_end),
+            offset: parseInt(_start), limit: parseInt(_end-_start),
              order: [
             [_sort, _order]]
          });
 
          res.header('Access-Control-Expose-Headers', '*');
-         res.header('X-Total-Count', users != null ? users.length : 0 );
-     
+         res.header('X-Total-Count', users != null ? _start +'-'+ _end +'/' + total : 0 );
+        
          return res.json(users);
         } else {
-            return res.json(await User.findAll()); 
+            return res.json(users); 
         }    
       
     },
