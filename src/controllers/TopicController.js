@@ -2,9 +2,23 @@ const Topic = require('../models/Topic');
 
 module.exports = {
     async listTopic(req, res) {
-     const topic = await Topic.findAll();
-
-        return res.json(topic);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const topics = await Topic.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', topics != null ? topics.length : 0 );
+         
+             return res.json(topics);
+            } else {
+                return res.json(await Topic.findAll()); 
+            }    
     },
     async getTopic(req, res) {
         const { topic_id } = req.params;

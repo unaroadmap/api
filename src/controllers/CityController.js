@@ -2,9 +2,23 @@ const City = require('../models/City');
 
 module.exports = {
     async listCitys(req, res) {
-     const citys = await City.findAll();
-
-        return res.json(citys);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const citys = await City.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', citys != null ? citys.length : 0 );
+         
+             return res.json(citys);
+            } else {
+                return res.json(await City.findAll()); 
+            }    
     },
     async getCity(req, res) {
         const { city_id } = req.params;

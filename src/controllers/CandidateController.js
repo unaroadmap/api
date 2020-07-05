@@ -2,9 +2,23 @@ const Candidate = require('../models/Candidate');
 
 module.exports = {
     async listCandidate(req, res) {
-     const candidate = await Candidate.findAll();
-
-        return res.json(candidate);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const candidates = await Candidate.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', candidates != null ? candidates.length : 0 );
+         
+             return res.json(candidates);
+            } else {
+                return res.json(await Candidate.findAll()); 
+            }    
     },
     async getCandidate(req, res) {
         const { candidate_id } = req.params;

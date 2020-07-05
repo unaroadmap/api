@@ -3,17 +3,32 @@ const Topic = require('../models/Topic');
 
 module.exports = {
     async listTrail(req, res) {
-     const trail = await Trail.findAll({
-         include: [
-             {
-                 model: Topic,
-                 as: 'topics',
-                 through: { attributes: []},
-             }
-         ]
-     });
-
-        return res.json(trail);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const trails = await Trail.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', trails != null ? trails.length : 0 );
+         
+             return res.json(trails);
+            } else {
+                return res.json(await Trail.findAll({
+                    include: [
+                        {
+                            model: Topic,
+                            as: 'topics',
+                            through: { attributes: []},
+                        }
+                    ]
+                })); 
+            }    
+     
     },
     async getTrail(req, res) {
         const { trail_id } = req.params;

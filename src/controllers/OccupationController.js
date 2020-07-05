@@ -2,9 +2,23 @@ const Occupation = require('../models/Occupation');
 
 module.exports = {
     async listOccupation(req, res) {
-     const occupation = await Occupation.findAll();
-
-        return res.json(occupation);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const occupations = await Occupation.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', occupations != null ? occupations.length : 0 );
+         
+             return res.json(occupations);
+            } else {
+                return res.json(await Occupation.findAll()); 
+            }    
     },
     async getOccupation(req, res) {
         const { occupation_id } = req.params;

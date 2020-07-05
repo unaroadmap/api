@@ -4,22 +4,38 @@ const Trail = require('../models/Trail');
 
 module.exports = {
     async listProject(req, res) {
-        const project = await Project.findAll({
-            include: [
-                {
-                    model: Candidate,
-                    as: 'candidates',
-                    through: { attributes: [] },
-                },
-                {
-                    model: Trail,
-                    as: 'trails',
-                    through: { attributes: [] },
-                }
-            ]
-        });
 
-        return res.json(project);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const projects = await Project.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', projects != null ? projects.length : 0 );
+         
+             return res.json(projects);
+            } else {
+                return res.json(await Project.findAll({
+                    include: [
+                        {
+                            model: Candidate,
+                            as: 'candidates',
+                            through: { attributes: [] },
+                        },
+                        {
+                            model: Trail,
+                            as: 'trails',
+                            through: { attributes: [] },
+                        }
+                    ]
+                })); 
+            }    
+       
     },
 
     async listProjectCandidate(req, res) {

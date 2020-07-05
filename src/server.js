@@ -6,7 +6,13 @@ require('./database');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    allowHeaders: ['Origin, Content-Type, Accept, Authorization'],
+    exposeHeaders: ['Access-Control-Expose-Headers','X-Total-Count'],
+    credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

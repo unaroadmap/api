@@ -2,9 +2,23 @@ const District = require('../models/District');
 
 module.exports = {
     async listDistricts(req, res) {
-     const districts = await District.findAll();
-
-        return res.json(districts);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const districts = await District.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', districts != null ? districts.length : 0 );
+         
+             return res.json(districts);
+            } else {
+                return res.json(await District.findAll()); 
+            }    
     },
     async getDistrict(req, res) {
         const { district_id } = req.params;

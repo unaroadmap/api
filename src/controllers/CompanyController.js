@@ -2,9 +2,23 @@ const Company = require('../models/Company');
 
 module.exports = {
     async listCompany(req, res) {
-     const company = await Company.findAll();
-
-        return res.json(company);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const companys = await Company.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', companys != null ? companys.length : 0 );
+         
+             return res.json(companys);
+            } else {
+                return res.json(await Company.findAll()); 
+            }    
     },
     async getCompany(req, res) {
         const { company_id } = req.params;

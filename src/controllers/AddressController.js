@@ -6,9 +6,23 @@ const State = require('../models/State');
 
 module.exports = {
     async listAddresss(req, res) {
-     const addresss = await Address.findAll();
+      const {_start, _end, _order, _sort} = req.query;
+        
+    if(_start !== undefined) {
+     
+         const address = await Address.findAll({
+            offset: parseInt(_start), limit: parseInt(_end),
+             order: [
+            [_sort, _order]]
+         });
 
-        return res.json(addresss);
+         res.header('Access-Control-Expose-Headers', '*');
+         res.header('X-Total-Count', address != null ? address.length : 0 );
+     
+         return res.json(address);
+        } else {
+            return res.json(await Address.findAll()); 
+        }    
     },
     async getAddress(req, res) {
         const { address_id } = req.params;

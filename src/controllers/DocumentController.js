@@ -2,9 +2,23 @@ const Document = require('../models/Document');
 
 module.exports = {
     async listDocument(req, res) {
-     const document = await Document.findAll();
-
-        return res.json(document);
+        const {_start, _end, _order, _sort} = req.query;
+        
+        if(_start !== undefined) {
+         
+             const documents = await Document.findAll({
+                offset: parseInt(_start), limit: parseInt(_end),
+                 order: [
+                [_sort, _order]]
+             });
+    
+             res.header('Access-Control-Expose-Headers', '*');
+             res.header('X-Total-Count', documents != null ? documents.length : 0 );
+         
+             return res.json(documents);
+            } else {
+                return res.json(await Document.findAll()); 
+            }    
     },
     async getDocument(req, res) {
         const { document_id } = req.params;
