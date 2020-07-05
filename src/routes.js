@@ -62,7 +62,7 @@ routes.post('/companys',login.private, CompanyController.store);
 routes.put('/companys/:company_id',login.private, CompanyController.update);
 routes.delete('/companys/:company_id',login.private, CompanyController.delete);
 
-routes.get('/projects/:candidate_id', login.private, ProjectController.listProjectCandidate);
+routes.get('/projects/candidate/:candidate_id', login.private, ProjectController.listProjectCandidate);
 routes.get('/projects', login.private, ProjectController.listProject);
 routes.get('/projects/:project_id', login.private, ProjectController.getProject);
 routes.post('/projects', login.private, ProjectController.store);

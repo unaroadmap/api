@@ -25,6 +25,18 @@ module.exports = {
         if(_start !== undefined) {
          
              const projects = await Project.findAll({
+                include: [
+                    {
+                        model: Candidate,
+                        as: 'candidates',
+                        through: { attributes: [] },
+                    },
+                    {
+                        model: Trail,
+                        as: 'trails',
+                        through: { attributes: [] },
+                    }
+                ],
                 offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
@@ -50,7 +62,20 @@ module.exports = {
     async getProject(req, res) {
         const { project_id } = req.params;
 
-        const project = await Project.findByPk(project_id);
+        const project = await Project.findByPk(project_id,{
+            include: [
+                {
+                    model: Candidate,
+                    as: 'candidates',
+                    through: { attributes: [] },
+                },
+                {
+                    model: Trail,
+                    as: 'trails',
+                    through: { attributes: [] },
+                }
+            ]
+        });
 
         return res.json(project);
 
@@ -61,12 +86,22 @@ module.exports = {
 
         const project = await Project.create(data);
 
-        if (candidates && candidates.length > 0) {
-            project.setCandidates(candidates);
+        let arrCandidates = [];
+        let arrTrilhas = [];
+
+
+        for(let p in candidates)
+            arrCandidates.push(candidates[p]["id"]);
+
+        for(let p in trails)
+            arrTrilhas.push(trails[p]["id"]);
+
+        if (arrCandidates && arrCandidates.length > 0) {
+            project.setCandidates(arrCandidates);
         }
 
-        if (trails && trails.length > 0) {
-            project.setTrails(trails);
+        if (arrTrilhas && arrTrilhas.length > 0) {
+            project.setTrails(arrTrilhas);
         }
 
         return res.json(project);
@@ -76,12 +111,12 @@ module.exports = {
         try {
             const { project_id } = req.params;
 
-            const { candidate_id, trail_id, ...data } = req.body;
+            const { candidate_id, trail_id, candidates, trails, ...data } = req.body;
             
             const project = await Project.findByPk(project_id);
-
+      
             project.update(data);
-            console.log(candidate_id)
+            
             if (candidate_id !== undefined && candidate_id !== null) {
                 await Project.sequelize.query('INSERT INTO projects_candidates (candidate_id,project_id) VALUES (?,?)',
                       { replacements: [candidate_id,project_id], type: Project.sequelize.QueryTypes.INSERT}
@@ -97,6 +132,25 @@ module.exports = {
                     console.log(trails)
                 });
             }
+
+            let arrCandidates = [];
+            let arrTrilhas = [];
+
+
+            for(let p in candidates)
+                arrCandidates.push(candidates[p]["id"]);
+
+            for(let p in trails)
+                arrTrilhas.push(trails[p]["id"]);
+
+            if (arrCandidates && arrCandidates.length > 0) {
+                project.setCandidates(arrCandidates);
+            }
+
+            if (arrTrilhas && arrTrilhas.length > 0) {
+                project.setTrails(arrTrilhas);
+            } 
+
         
             return res.status(200).json(project);
         } catch (err) {
