@@ -6,7 +6,8 @@ class Topic extends Model {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       order: DataTypes.INTEGER,
-      url: DataTypes.STRING         
+      url: DataTypes.STRING,
+      duration: DataTypes.TIME
       }, {
           sequelize,
           tableName: 'topic'
