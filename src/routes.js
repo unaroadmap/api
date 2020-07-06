@@ -67,6 +67,7 @@ routes.get('/projects', login.private, ProjectController.listProject);
 routes.get('/projects/:project_id', login.private, ProjectController.getProject);
 routes.post('/projects', login.private, ProjectController.store);
 routes.put('/projects/:project_id', login.private, ProjectController.update);
+routes.put('/projects/:project_id/candidates/:candidate_id', login.private, ProjectController.removeCandidateProject);
 routes.delete('/projects/:project_id', login.private, ProjectController.delete);
 
 routes.get('/occupations', login.private, OccupationController.listOccupation);

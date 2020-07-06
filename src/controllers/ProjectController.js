@@ -166,5 +166,14 @@ module.exports = {
                 res.json(deleteProject)
             });
 
+    },
+    async removeCandidateProject(req, res, next) {
+        const { candidate_id, project_id } = req.params;
+
+        await Project.sequelize.query('delete from projects_candidates where candidate_id = ? and project_id = ?',
+            { replacements: [candidate_id,project_id], type: Project.sequelize.QueryTypes.DELETE}
+        ).then(function(projects){
+            return res.status(200).json("Success");
+        });
     }
 };
