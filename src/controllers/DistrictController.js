@@ -4,7 +4,8 @@ module.exports = {
     async listDistricts(req, res) {
         const {_start, _end, _order, _sort} = req.query;
         const districts = await District.findAll();
-
+        const total = districts.length;
+        
         if(_start !== undefined) {
          
              const districts = await District.findAll({

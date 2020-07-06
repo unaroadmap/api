@@ -4,7 +4,8 @@ module.exports = {
     async listDocument(req, res) {
         const {_start, _end, _order, _sort} = req.query;
         const documents = await Document.findAll();
-
+        const total = documents.length;
+        
         if(_start !== undefined) {
          
              const documents = await Document.findAll({

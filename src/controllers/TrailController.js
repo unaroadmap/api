@@ -73,6 +73,8 @@ module.exports = {
             
         }
 
+
+        
         return res.json(trail);
     },
     async update(req, res, next) {
