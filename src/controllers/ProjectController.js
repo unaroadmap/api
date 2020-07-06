@@ -1,11 +1,15 @@
 const Project = require('../models/Project');
 const Candidate = require('../models/Candidate');
 const Trail = require('../models/Trail');
+const { Sequelize } = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = {
     async listProject(req, res) {
+        
+        const {_start, _end, _order, _sort, q} = req.query;
+        const condition = q ? { name: { [Op.like]: `%${q}%`}} : null;
 
-        const {_start, _end, _order, _sort} = req.query;
         const projects = await Project.findAll({
             include: [
                 {
@@ -37,6 +41,9 @@ module.exports = {
                         through: { attributes: [] },
                     }
                 ],
+                where:
+                    condition
+                ,
                 offset: parseInt(_start), limit: parseInt(_end-_start),
                  order: [
                 [_sort, _order]]
